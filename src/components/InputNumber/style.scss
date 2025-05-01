@@ -1,0 +1,153 @@
+* {
+  box-sizing: border-box;
+}
+
+.InputNumber {
+  display: flex;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: clip;
+  height: 32px;
+
+  &__triggers {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    aspect-ratio: 1;
+    position: relative
+  }
+
+  &__trigger_separator {
+    height: 1px;
+    width: 100%;
+    background: #ccc;
+    position: absolute;
+    top: calc(50% - 0.5px);
+    left: 0;
+  }
+
+  &__trigger {
+    appearance: none;
+    border: none;
+    background: none;
+    height: 100%;
+    aspect-ratio: 1;
+    font-size: 1.25rem;
+    font-family: monospace;
+    cursor: pointer;
+    display: grid;
+    place-content: center;
+    padding: 0;
+    color: #111;
+    transition: background 0.1s ease-in-out;
+
+    &:disabled {
+      cursor: not-allowed;
+
+      svg {
+        color: #ddd;
+      }
+    }
+
+    &:not(:disabled):hover {
+      background: #F8F8F8;
+    }
+
+    svg {
+      height: 16px;
+      width: 16px;
+      transition: color 0.1s ease-in-out;
+    }
+  }
+
+  &__input {
+
+    &-wrapper {
+      position: relative;
+      border-inline: 1px solid #ccc;
+      height: 100%;
+      flex: 1 1 0%;
+    }
+
+    &-number {
+      border: none;
+      height: 100%;
+      margin: 0;
+      opacity: 0;
+
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        appearance: none;
+      }
+
+      &[type="number"] {
+        appearance: textfield;
+      }
+
+      outline: none;
+
+      &:focus-visible {
+        outline: 1px solid #eee;
+        outline-offset: -2px;
+      }
+    }
+
+    &-text {
+      pointer-events: none;
+      opacity: 1;
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-content: center;
+    }
+
+    &-number,
+    &-text,
+    &-placeholder {
+      transition: opacity 0.1s ease-in-out;
+      padding-inline: 0;
+      padding-block: 0;
+      padding-inline: 0.5rem;
+      font-size: 12px;
+      text-align: center;
+      font-family: inherit;
+      width: 100%;
+    }
+
+    &-placeholder {
+      opacity: 1;
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-content: center;
+      color: #777;
+    }
+  }
+
+  &__input-number:focus {
+    opacity: 1;
+  }
+
+  &__input-number:focus+&__input-text {
+    opacity: 0;
+  }
+
+  &__input-number:focus~&__input-placeholder {
+    opacity: 0;
+  }
+  
+  &--vertical .InputNumber__input-wrapper {
+    border-left: none;
+  }
+
+  &--vertical .InputNumber__trigger {
+    aspect-ratio: 0;
+    flex: 1 1 0%;
+
+    svg {
+      height: 12px;
+      width: 12px;
+    }
+  }
+}

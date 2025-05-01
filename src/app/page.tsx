@@ -1,95 +1,54 @@
-import Image from "next/image";
+"use client";
+
+import InputNumber from "@/components/InputNumber";
+import { useState } from "react";
 import styles from "./page.module.css";
 
+const step = 10;
+
+const types = ["horizontal", "vertical"] as const;
+
+const differentTypes = [
+  {},
+  { notation: "compact" },
+  { notation: "engineering" },
+  { notation: "scientific" },
+  { format: "percent" },
+  { format: "currency", currency: "EUR" },
+  { format: "unit", unit: "meter", display: "long" },
+  { format: "unit", unit: "meter", display: "narrow" },
+  { format: "unit", unit: "meter", display: "short" },
+  { format: "custom", parser: (value: number) => `${value} px` },
+  { format: "custom", parser: (value: number) => `${value} m²` },
+  { format: "custom", parser: (value: number) => `n°${value}` },
+  { format: "custom", parser: (value: number) => `${value} 🎂` },
+] as const;
+
 export default function Home() {
+  const [meterValue, setMeterValue] = useState(123456);
+
   return (
     <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      <main style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20 }}>
+        {types.map((type) => (
+          <section
+            key={type}
+            style={{ width: "200px", display: "flex", flexDirection: "column", gap: 5 }}
           >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
+            {differentTypes.map((props, index) => (
+              <InputNumber
+                key={index}
+                {...props}
+                step={step}
+                min={0}
+                type={type}
+                value={meterValue}
+                onChange={(details) => setMeterValue(details.value)}
+              />
+            ))}
+          </section>
+        ))}
       </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
