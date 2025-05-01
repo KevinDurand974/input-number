@@ -90,6 +90,7 @@ type DecimalProps = { format?: "decimal"; lang?: string };
 
 type CustomProps = { format: "custom"; parser: (value: number) => string };
 
+// A debounce effect is used to prevent the input from being updated too often
 const useDebounceEffect = (callback: () => void, deps: any[], delay: number = 2) => {
   useEffect(() => {
     const timer = setTimeout(callback, delay);
